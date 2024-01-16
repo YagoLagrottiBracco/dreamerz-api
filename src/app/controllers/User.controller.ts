@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { User } from "../models/User.model"
 import { IUser } from "../interfaces/User.interface"
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { createToken, getUserByToken } from "../helpers/token.helper"
 import { Types } from "mongoose"
 

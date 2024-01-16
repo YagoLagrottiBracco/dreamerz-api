@@ -1,6 +1,6 @@
 import request from "supertest"
 import { User } from "../app/models/User.model"
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
 import server from "./mocks/express.mock"
 
