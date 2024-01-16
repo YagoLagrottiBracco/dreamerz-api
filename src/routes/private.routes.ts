@@ -8,13 +8,19 @@ import {
     dreamValidationGetOneById,
     dreamValidationUpdate,
 } from "../app/middlewares/dreamMiddleware"
+import GoalController from "../app/controllers/Goal.controller"
+import {
+    goalValidationCreate,
+    goalValidationGetOneById,
+    goalValidationUpdate,
+} from "../app/middlewares/goalMiddleware"
 
 const router = Router()
 
 //DREAMS
 router.get("/dreams", DreamController.getAllByUserToken)
 router.get(
-    "/dreams/:id",
+    "/dreams/find/:id",
     dreamValidationGetOneById(),
     validationMiddleware,
     DreamController.getOneById
@@ -32,6 +38,28 @@ router.patch(
     DreamController.updateById
 )
 router.delete("/dreams/:id", DreamController.deleteById)
+
+//GOALS
+router.get("/goals/:idDream", GoalController.getAllByIdDream)
+router.get(
+    "/goals/find/:id",
+    goalValidationGetOneById(),
+    validationMiddleware,
+    GoalController.getOneById
+)
+router.post(
+    "/goals/:idDream",
+    goalValidationCreate(),
+    validationMiddleware,
+    GoalController.createByIdDream
+)
+router.patch(
+    "/goals/:id",
+    goalValidationUpdate(),
+    validationMiddleware,
+    GoalController.updateById
+)
+router.delete("/goals/:id", GoalController.deleteById)
 
 //USERS
 router.get("/user/profile/", UserController.profile)

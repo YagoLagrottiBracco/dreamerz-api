@@ -21,6 +21,12 @@ export default class DreamController {
                 "user._id": user._id,
             }).lean()
 
+            if (dreams.length === 0) {
+                return res
+                    .status(404)
+                    .json({ message: "Não foi encontrado nenhum sonho" })
+            }
+
             return res.status(200).json({
                 message: `Foram encontrados ${dreams.length} sonhos`,
                 dreams,
@@ -67,7 +73,7 @@ export default class DreamController {
         req: Request,
         res: Response
     ): Promise<Response> {
-        const data: IDream = req.body
+        const dataDream: IDream = req.body
 
         try {
             const user: IUser | boolean = await getUserByToken(req, res)
@@ -76,15 +82,9 @@ export default class DreamController {
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
 
-            const dream: IDream = (await Dream.create({
-                name: data.name,
-                description: data.description,
-                user: {
-                    _id: new Types.ObjectId(user._id),
-                    name: user.name,
-                    email: user.email,
-                },
-            })) as IDream
+            dataDream.user = user
+
+            const dream: IDream = await Dream.create(dataDream)
 
             return res.status(201).json({
                 message: "Sonho criado com sucesso",

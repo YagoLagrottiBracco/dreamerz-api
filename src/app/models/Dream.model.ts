@@ -6,8 +6,8 @@ export const Dream = model(
         {
             name: { type: String, required: true },
             description: { type: String },
-            active: { type: Boolean, default: false },
-            user: Object,
+            active: { type: Boolean, default: true },
+            user: { type: Object, required: true },
         },
         { timestamps: true }
     )

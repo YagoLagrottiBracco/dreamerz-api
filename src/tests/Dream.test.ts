@@ -6,6 +6,7 @@ import server from "./mocks/express.mock"
 
 let dream: any
 let user: any
+let token: any
 
 describe("DreamController()", () => {
     beforeAll(async () => {
@@ -46,7 +47,7 @@ describe("DreamController()", () => {
 
         user = await registerUser()
 
-        const token = user.body.token
+        token = user.body.token
 
         const response = await request(server)
             .post("/dashboard/dreams")
@@ -64,8 +65,6 @@ describe("DreamController()", () => {
     })
 
     it("should find all dreams from the user's token", async () => {
-        const token = user.body.token
-
         const response = await request(server)
             .get("/dashboard/dreams")
             .set({ Authorization: `Bearer ${token}` })
@@ -82,10 +81,8 @@ describe("DreamController()", () => {
     })
 
     it("should find one dream from the user's token and id of the dream", async () => {
-        const token = user.body.token
-
         const response = await request(server)
-            .get(`/dashboard/dreams/${dream._id}`)
+            .get(`/dashboard/dreams/find/${dream._id}`)
             .set({ Authorization: `Bearer ${token}` })
             .expect(200)
 
@@ -95,8 +92,6 @@ describe("DreamController()", () => {
     })
 
     it("should edit one dream passing id as parameter and returning successfully", async () => {
-        const token = user.body.token
-
         const dataDream = {
             name: "OiJIUzI1NiIsInR5cC",
             description: "Test Edit",
@@ -112,8 +107,6 @@ describe("DreamController()", () => {
     })
 
     it("should delete one dream passing id as parameter and returning successfully", async () => {
-        const token = user.body.token
-
         const response = await request(server)
             .delete(`/dashboard/dreams/${dream._id}`)
             .set({ Authorization: `Bearer ${token}` })
