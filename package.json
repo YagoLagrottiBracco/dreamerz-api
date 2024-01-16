@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "vitest --reporter verbose",
-        "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+        "start": "ts-node-dev --respawn --transpile-only src/server.ts"
     },
     "keywords": [],
     "author": "",

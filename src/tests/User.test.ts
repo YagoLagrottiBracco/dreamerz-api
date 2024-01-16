@@ -2,13 +2,9 @@ import request from "supertest"
 import { User } from "../app/models/User.model"
 import bcrypt from "bcrypt"
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
-import { serverStart, serverStop } from "./mocks/express.mock"
-
-let server: any
+import server from "./mocks/express.mock"
 
 describe("UserController", () => {
-    server = serverStart()
-
     beforeAll(async () => {
         await User.deleteOne({
             email: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo@example.com",
@@ -19,8 +15,6 @@ describe("UserController", () => {
         await User.deleteOne({
             email: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo@example.com",
         })
-
-        serverStop()
     })
 
     it("should register a new user", async () => {
