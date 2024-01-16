@@ -16,4 +16,4 @@ app.use(express.json())
     .use("/", publicRoutes)
     .use("/dashboard/", privateRoutes)
 
-    export default app
+export default app

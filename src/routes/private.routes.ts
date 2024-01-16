@@ -14,6 +14,12 @@ import {
     goalValidationGetOneById,
     goalValidationUpdate,
 } from "../app/middlewares/goalMiddleware"
+import {
+    actionValidationCreate,
+    actionValidationGetOneById,
+    actionValidationUpdate,
+} from "../app/middlewares/actionMiddleware"
+import ActionController from "../app/controllers/Action.controller"
 
 const router = Router()
 
@@ -60,6 +66,28 @@ router.patch(
     GoalController.updateById
 )
 router.delete("/goals/:id", GoalController.deleteById)
+
+//ACTIONS
+router.get("/actions/:idGoal", ActionController.getAllByIdGoal)
+router.get(
+    "/actions/find/:id",
+    actionValidationGetOneById(),
+    validationMiddleware,
+    ActionController.getOneById
+)
+router.post(
+    "/actions/:idGoal",
+    actionValidationCreate(),
+    validationMiddleware,
+    ActionController.createByIdGoal
+)
+router.patch(
+    "/actions/:id",
+    actionValidationUpdate(),
+    validationMiddleware,
+    ActionController.updateById
+)
+router.delete("/actions/:id", ActionController.deleteById)
 
 //USERS
 router.get("/user/profile/", UserController.profile)

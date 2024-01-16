@@ -10,29 +10,29 @@ let token: any
 
 describe("DreamController()", () => {
     beforeAll(async () => {
-        await Dream.deleteOne({
-            name: "OiJIUzI1NiIsInR5cC",
+        await Dream.deleteMany({
+            name: "OiJIUzI1N",
         })
 
-        await User.deleteOne({
-            email: "92j8f89123jf8923jfj8923fj89@example.com",
+        await User.deleteMany({
+            email: "OiJIUzI1N@example.com",
         })
     })
 
     afterAll(async () => {
-        await Dream.deleteOne({
-            name: "OiJIUzI1NiIsInR5cC",
+        await Dream.deleteMany({
+            name: "OiJIUzI1N",
         })
 
-        await User.deleteOne({
-            email: "92j8f89123jf8923jfj8923fj89@example.com",
+        await User.deleteMany({
+            email: "OiJIUzI1N@example.com",
         })
     })
 
     const registerUser = async () => {
         return request(server).post("/register").send({
             name: "Test",
-            email: "92j8f89123jf8923jfj8923fj89@example.com",
+            email: "OiJIUzI1N@example.com",
             password: "2Qj!@fj%89@N23fF89",
             confirmPassword: "2Qj!@fj%89@N23fF89",
         })
@@ -40,7 +40,7 @@ describe("DreamController()", () => {
 
     it("should create a dream successfully", async () => {
         const dreamData = {
-            name: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo",
+            name: "OiJIUzI1NI6IkpXVCJ9.eyJuYW1lIjo",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo odio ipsa aliquam fuga quod, exercitationem nisi id, dolore libero voluptates voluptate. Magnam quibusdam cupiditate, consequuntur numquam ex ab fuga qui.",
         }
@@ -72,7 +72,7 @@ describe("DreamController()", () => {
 
         expect(response.body.dreams).toHaveLength(1)
         expect(response.body.dreams[0].name).toBe(
-            "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo"
+            "OiJIUzI1NI6IkpXVCJ9.eyJuYW1lIjo"
         )
         expect(response.body.dreams[0].description).toBe(
             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo odio ipsa aliquam fuga quod, exercitationem nisi id, dolore libero voluptates voluptate. Magnam quibusdam cupiditate, consequuntur numquam ex ab fuga qui."
@@ -93,7 +93,7 @@ describe("DreamController()", () => {
 
     it("should edit one dream passing id as parameter and returning successfully", async () => {
         const dataDream = {
-            name: "OiJIUzI1NiIsInR5cC",
+            name: "OiJIUzI1N",
             description: "Test Edit",
         }
 

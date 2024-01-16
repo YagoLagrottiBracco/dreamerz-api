@@ -6,20 +6,20 @@ import server from "./mocks/express.mock"
 
 describe("UserController", () => {
     beforeAll(async () => {
-        await User.deleteOne({
-            email: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo@example.com",
+        await User.deleteMany({
+            email: "JIUzKLJhhjkJKh39DFf90fI1N@example.com",
         })
     })
 
     afterAll(async () => {
-        await User.deleteOne({
-            email: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo@example.com",
+        await User.deleteMany({
+            email: "JIUzKLJhhjkJKh39DFf90fI1N@example.com",
         })
     })
 
     it("should register a new user", async () => {
         const userData = {
-            email: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo@example.com",
+            email: "JIUzKLJhhjkJKh39DFf90fI1N@example.com",
             password: "2Qj!@fj%89@N23fF89",
             confirmPassword: "2Qj!@fj%89@N23fF89",
             name: "Test User",
@@ -45,7 +45,7 @@ describe("UserController", () => {
 
     it("should return 422 for duplicate email", async () => {
         const duplicateUserData = {
-            email: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo@example.com",
+            email: "JIUzKLJhhjkJKh39DFf90fI1N@example.com",
             password: "2Qj!@fj%89@N23fF89",
             confirmPassword: "2Qj!@fj%89@N23fF89",
             name: "Duplicate User",

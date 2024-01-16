@@ -12,37 +12,37 @@ let token: any
 
 describe("GoalController()", () => {
     beforeAll(async () => {
-        await Goal.deleteOne({
-            name: "OiJIUzI1NiIsInR5cC",
+        await Goal.deleteMany({
+            name: "IUzI1NiIsIn",
         })
 
-        await Dream.deleteOne({
-            name: "92j8f89123jf8923jfj8923fj89",
+        await Dream.deleteMany({
+            name: "IUzI1NiIsIn",
         })
 
-        await User.deleteOne({
-            email: "92j8f89123jf8923jfj8923fj89@example.com",
+        await User.deleteMany({
+            email: "eyJuYW1lIjo@example.com",
         })
     })
 
     afterAll(async () => {
-        await Goal.deleteOne({
-            name: "OiJIUzI1NiIsInR5cC",
+        await Goal.deleteMany({
+            name: "IUzI1NiIsIn",
         })
 
-        await Dream.deleteOne({
-            name: "92j8f89123jf8923jfj8923fj89",
+        await Dream.deleteMany({
+            name: "IUzI1NiIsInI6IkpXVCJ9.eyJuYW1lIjo",
         })
 
-        await User.deleteOne({
-            email: "92j8f89123jf8923jfj8923fj89@example.com",
+        await User.deleteMany({
+            email: "eyJuYW1lIjo@example.com",
         })
     })
 
     const registerUser = async () => {
         return request(server).post("/register").send({
             name: "Test",
-            email: "92j8f89123jf8923jfj8923fj89@example.com",
+            email: "eyJuYW1lIjo@example.com",
             password: "2Qj!@fj%89@N23fF89",
             confirmPassword: "2Qj!@fj%89@N23fF89",
         })
@@ -55,7 +55,7 @@ describe("GoalController()", () => {
             .post("/dashboard/dreams")
             .set({ Authorization: `Bearer ${token}` })
             .send({
-                name: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo",
+                name: "IUzI1NiIsIn",
                 description:
                     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure cumque, eligendi quibusdam, magnam possimus laboriosam natus vero cupiditate veritatis veniam ab! Illo consequatur minima ad repellendus hic impedit ipsum aut.",
             })
@@ -66,11 +66,10 @@ describe("GoalController()", () => {
         dream = await registerDream(user)
 
         const goalData = {
-            name: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo",
+            name: "IUzI1NiIsInI6IkpXVCJ9.eyJuYW1lIjo",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo odio ipsa aliquam fuga quod, exercitationem nisi id, dolore libero voluptates voluptate. Magnam quibusdam cupiditate, consequuntur numquam ex ab fuga qui.",
             difficulty: "hard",
-            dream: dream.body.dream,
         }
 
         const response = await request(server)
@@ -96,7 +95,7 @@ describe("GoalController()", () => {
 
         expect(response.body.goals).toHaveLength(1)
         expect(response.body.goals[0].name).toBe(
-            "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo"
+            "IUzI1NiIsInI6IkpXVCJ9.eyJuYW1lIjo"
         )
         expect(response.body.goals[0].description).toBe(
             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo odio ipsa aliquam fuga quod, exercitationem nisi id, dolore libero voluptates voluptate. Magnam quibusdam cupiditate, consequuntur numquam ex ab fuga qui."
@@ -118,8 +117,9 @@ describe("GoalController()", () => {
 
     it("should edit one goal passing id as parameter and returning successfully", async () => {
         const dataGoal = {
-            name: "OiJIUzI1NiIsInR5cC",
+            name: "IUzI1NiIsIn",
             description: "Test Edit",
+            difficulty: "easy",
         }
 
         const response = await request(server)
