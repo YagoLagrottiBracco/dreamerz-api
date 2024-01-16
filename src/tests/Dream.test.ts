@@ -10,7 +10,7 @@ let user: any
 describe("DreamController()", () => {
     beforeAll(async () => {
         await Dream.deleteOne({
-            name: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo",
+            name: "OiJIUzI1NiIsInR5cC",
         })
 
         await User.deleteOne({
@@ -20,7 +20,7 @@ describe("DreamController()", () => {
 
     afterAll(async () => {
         await Dream.deleteOne({
-            name: "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo",
+            name: "OiJIUzI1NiIsInR5cC",
         })
 
         await User.deleteOne({
@@ -29,16 +29,12 @@ describe("DreamController()", () => {
     })
 
     const registerUser = async () => {
-        return request(server)
-            .post("/register")
-            .send(
-                {
-                    name: "Test",
-                    email: "92j8f89123jf8923jfj8923fj89@example.com",
-                    password: "2Qj!@fj%89@N23fF89",
-                    confirmPassword: "2Qj!@fj%89@N23fF89",
-                }
-            )
+        return request(server).post("/register").send({
+            name: "Test",
+            email: "92j8f89123jf8923jfj8923fj89@example.com",
+            password: "2Qj!@fj%89@N23fF89",
+            confirmPassword: "2Qj!@fj%89@N23fF89",
+        })
     }
 
     it("should create a dream successfully", async () => {
@@ -76,10 +72,10 @@ describe("DreamController()", () => {
             .expect(200)
 
         expect(response.body.dreams).toHaveLength(1)
-        expect(response.body.dreams[0].name).equal(
+        expect(response.body.dreams[0].name).toBe(
             "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo"
         )
-        expect(response.body.dreams[0].description).equal(
+        expect(response.body.dreams[0].description).toBe(
             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo odio ipsa aliquam fuga quod, exercitationem nisi id, dolore libero voluptates voluptate. Magnam quibusdam cupiditate, consequuntur numquam ex ab fuga qui."
         )
         expect(response.body.message).toBe("Foram encontrados 1 sonhos")
@@ -93,12 +89,36 @@ describe("DreamController()", () => {
             .set({ Authorization: `Bearer ${token}` })
             .expect(200)
 
-        expect(response.body.dream.name).equal(
-            "OiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjo"
-        )
-        expect(response.body.dream.description).equal(
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo odio ipsa aliquam fuga quod, exercitationem nisi id, dolore libero voluptates voluptate. Magnam quibusdam cupiditate, consequuntur numquam ex ab fuga qui."
-        )
+        expect(response.body.dream.name).toBe(dream.name)
+        expect(response.body.dream.description).toBe(dream.description)
         expect(response.body.message).toBe("Sonho encontrado com sucesso")
+    })
+
+    it("should edit one dream passing id as parameter and returning successfully", async () => {
+        const token = user.body.token
+
+        const dataDream = {
+            name: "OiJIUzI1NiIsInR5cC",
+            description: "Test Edit",
+        }
+
+        const response = await request(server)
+            .patch(`/dashboard/dreams/${dream._id}`)
+            .set({ Authorization: `Bearer ${token}` })
+            .send(dataDream)
+            .expect(200)
+
+        expect(response.body.message).toBe("Sonho atualizado com sucesso")
+    })
+
+    it("should delete one dream passing id as parameter and returning successfully", async () => {
+        const token = user.body.token
+
+        const response = await request(server)
+            .delete(`/dashboard/dreams/${dream._id}`)
+            .set({ Authorization: `Bearer ${token}` })
+            .expect(200)
+
+        expect(response.body.message).toBe("Sonho apagado com sucesso")
     })
 })
