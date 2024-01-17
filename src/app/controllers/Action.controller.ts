@@ -4,6 +4,7 @@ import { Types } from "mongoose"
 import { Goal } from "../models/Goal.model"
 import { IGoal } from "../interfaces/Goal.interface"
 import { Action } from "../models/Action.model"
+import Logger from "../../configs/logger.config"
 
 export default class ActionController {
     static async createByIdGoal(
@@ -17,6 +18,8 @@ export default class ActionController {
             const goal: IGoal | null = await Goal.findById(idGoal)
 
             if (!goal) {
+                Logger.warn("Objetivo não encontrado")
+
                 return res
                     .status(404)
                     .json({ message: "Objetivo não encontrado" })
@@ -30,6 +33,8 @@ export default class ActionController {
                 .status(201)
                 .json({ message: "Execução criada com sucesso", action })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -49,6 +54,8 @@ export default class ActionController {
             }).lean()
 
             if (actions.length === 0) {
+                Logger.warn("Não foi encontrado nenhuma execução")
+
                 return res
                     .status(404)
                     .json({ message: "Não foi encontrado nenhuma execução" })
@@ -59,6 +66,8 @@ export default class ActionController {
                 actions,
             })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -73,6 +82,8 @@ export default class ActionController {
             const action: IAction | null = await Action.findById(id).lean()
 
             if (!action) {
+                Logger.warn("Não foi encontrado a execução")
+
                 return res
                     .status(404)
                     .json({ message: "Não foi encontrado a execução" })
@@ -83,6 +94,7 @@ export default class ActionController {
                 action,
             })
         } catch (error) {
+            Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -95,12 +107,24 @@ export default class ActionController {
         const dataAction: IAction = req.body
 
         try {
-            await Action.findByIdAndUpdate(id, dataAction).lean()
+            const action: IAction | null = await Action.findByIdAndUpdate(
+                id,
+                dataAction
+            ).lean()
+
+            if (!action) {
+                Logger.warn("Não foi encontrado a execução")
+
+                return res
+                    .status(404)
+                    .json({ message: "Não foi encontrado a execução" })
+            }
 
             return res.status(200).json({
                 message: "Execução atualizada com sucesso",
             })
         } catch (error) {
+            Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -112,12 +136,23 @@ export default class ActionController {
         const id: Types.ObjectId = new Types.ObjectId(req.params.id)
 
         try {
-            await Action.findByIdAndDelete(id).lean()
+            const action: IAction | null = await Action.findByIdAndDelete(
+                id
+            ).lean()
+
+            if (!action) {
+                Logger.warn("Não foi encontrado a execução")
+
+                return res
+                    .status(404)
+                    .json({ message: "Não foi encontrado a execução" })
+            }
 
             return res.status(200).json({
                 message: "Execução apagada com sucesso",
             })
         } catch (error) {
+            Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

@@ -4,6 +4,7 @@ import { IUser } from "../interfaces/User.interface"
 import bcrypt from "bcryptjs"
 import { createToken, getUserByToken } from "../helpers/token.helper"
 import { Types } from "mongoose"
+import Logger from "../../configs/logger.config"
 
 export default class UserController {
     static async register(
@@ -31,8 +32,18 @@ export default class UserController {
                 name,
             })
 
+            if (!user) {
+                Logger.warn("Não possível criar o usuário")
+
+                return res
+                    .status(422)
+                    .json({ message: "Não possível criar o usuário" })
+            }
+
             await createToken(user, req, res)
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -60,6 +71,8 @@ export default class UserController {
 
             await createToken(user, req, res)
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -75,6 +88,8 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Logout efetuado com sucesso" })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -87,6 +102,8 @@ export default class UserController {
             const user: IUser | boolean = await getUserByToken(req, res)
 
             if (!user) {
+                Logger.http("Acesso Negado!")
+
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
 
@@ -94,6 +111,8 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Usuário encontrado com sucesso", user })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -119,12 +138,12 @@ export default class UserController {
                     message: "Por favor, utilize outro e-mail",
                 })
             }
-            
 
             const updatedUser = await User.findOneAndUpdate({ _id: id }, data)
-            
 
             if (!updatedUser) {
+                Logger.http("Usuário não encontrado")
+
                 return res
                     .status(422)
                     .json({ message: "Usuário não encontrado" })
@@ -134,6 +153,8 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Usuário atualizado com sucesso" })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

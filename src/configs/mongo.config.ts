@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import Logger from "./logger.config"
 
 async function connect() {
     const env = process.env
@@ -15,7 +16,7 @@ async function connect() {
     try {
         await mongoose.connect(dbUri)
     } catch (error) {
-        console.log(error)
+        Logger.error(error)
     }
 }
 

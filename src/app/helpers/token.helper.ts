@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { IUser } from "../interfaces/User.interface"
 import { User } from "../models/User.model"
 import { Types } from "mongoose"
+import Logger from "../../configs/logger.config"
 const jwt = require("jsonwebtoken")
 
 interface DecodedToken {
@@ -25,6 +26,7 @@ export const createToken = async (
 
         return res.status(201).json({ message: "Você está autenticado", token })
     } catch (error) {
+        Logger.error(error)
         return res.status(500).json({
             message: "Houve um erro na autenticação",
             error,

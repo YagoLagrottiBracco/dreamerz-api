@@ -4,6 +4,7 @@ import { getUserByToken } from "../helpers/token.helper"
 import { IUser } from "../interfaces/User.interface"
 import { IDream } from "../interfaces/Dream.interface"
 import { Types } from "mongoose"
+import Logger from "../../configs/logger.config"
 
 export default class DreamController {
     static async getAllByUserToken(
@@ -14,6 +15,8 @@ export default class DreamController {
             const user: IUser | boolean = await getUserByToken(req, res)
 
             if (!user || typeof user === "boolean") {
+                Logger.http("Acesso Negado!")
+
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
 
@@ -22,6 +25,8 @@ export default class DreamController {
             }).lean()
 
             if (dreams.length === 0) {
+                Logger.warn("Não foi encontrado nenhum sonho")
+
                 return res
                     .status(404)
                     .json({ message: "Não foi encontrado nenhum sonho" })
@@ -32,6 +37,8 @@ export default class DreamController {
                 dreams,
             })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -46,6 +53,8 @@ export default class DreamController {
             const user: IUser | boolean = await getUserByToken(req, res)
 
             if (!user || typeof user === "boolean") {
+                Logger.http("Acesso Negado!")
+
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
 
@@ -55,6 +64,8 @@ export default class DreamController {
             }).lean()
 
             if (!dream) {
+                Logger.warn("Sonho não encontrado")
+
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
 
@@ -62,6 +73,8 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho encontrado com sucesso", dream })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -79,6 +92,8 @@ export default class DreamController {
             const user: IUser | boolean = await getUserByToken(req, res)
 
             if (!user || typeof user === "boolean") {
+                Logger.http("Acesso Negado!")
+
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
 
@@ -86,11 +101,21 @@ export default class DreamController {
 
             const dream: IDream = await Dream.create(dataDream)
 
+            if (!dream) {
+                Logger.warn("Não foi possível criar o sonho")
+
+                return res
+                    .status(422)
+                    .json({ message: "Não foi possível criar o sonho" })
+            }
+
             return res.status(201).json({
                 message: "Sonho criado com sucesso",
                 dream,
             })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -106,6 +131,8 @@ export default class DreamController {
             const dream: IDream | null = await Dream.findOneAndUpdate(id, data)
 
             if (!dream) {
+                Logger.warn("Sonho não encontrado")
+
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
 
@@ -113,6 +140,8 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho atualizado com sucesso" })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -127,6 +156,8 @@ export default class DreamController {
             const dream: IDream | null = await Dream.findOneAndDelete(id)
 
             if (!dream) {
+                Logger.warn("Sonho não encontrado")
+
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
 
@@ -134,6 +165,8 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho apagado com sucesso" })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

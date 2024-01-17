@@ -4,6 +4,7 @@ import { Types } from "mongoose"
 import { Dream } from "../models/Dream.model"
 import { IDream } from "../interfaces/Dream.interface"
 import { Goal } from "../models/Goal.model"
+import Logger from "../../configs/logger.config"
 
 export default class GoalController {
     static async createByIdDream(
@@ -17,6 +18,8 @@ export default class GoalController {
             const dream: IDream | null = await Dream.findById(idDream)
 
             if (!dream) {
+                Logger.http("Sonho não encontrado")
+
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
 
@@ -24,10 +27,20 @@ export default class GoalController {
 
             const goal: IGoal = await Goal.create(dataGoal)
 
+            if (!goal) {
+                Logger.warn("Não possível criar o objetivo")
+
+                return res
+                    .status(422)
+                    .json({ message: "Não foi possível criar o objetivo" })
+            }
+
             return res
                 .status(201)
                 .json({ message: "Objetivo criado com sucesso", goal })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -47,6 +60,8 @@ export default class GoalController {
             }).lean()
 
             if (goals.length === 0) {
+                Logger.warn("Não foi encontrado nenhum objetivo")
+
                 return res
                     .status(404)
                     .json({ message: "Não foi encontrado nenhum objetivo" })
@@ -57,6 +72,8 @@ export default class GoalController {
                 goals,
             })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -71,6 +88,8 @@ export default class GoalController {
             const goal: IGoal | null = await Goal.findById(id).lean()
 
             if (!goal) {
+                Logger.warn("Não foi encontrado o objetivo")
+
                 return res
                     .status(404)
                     .json({ message: "Não foi encontrado o objetivo" })
@@ -81,6 +100,8 @@ export default class GoalController {
                 goal,
             })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -99,6 +120,7 @@ export default class GoalController {
                 message: "Objetivo atualizado com sucesso",
             })
         } catch (error) {
+            Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -110,12 +132,22 @@ export default class GoalController {
         const id: Types.ObjectId = new Types.ObjectId(req.params.id)
 
         try {
-            await Goal.findByIdAndDelete(id).lean()
+            const goal: IGoal | null = await Goal.findByIdAndDelete(id).lean()
+
+            if (!goal) {
+                Logger.warn("Objetivo não encontrado")
+
+                return res
+                    .status(404)
+                    .json({ message: "Não foi encontrado o objetivo" })
+            }
 
             return res.status(200).json({
                 message: "Objetivo apagado com sucesso",
             })
         } catch (error) {
+            Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
