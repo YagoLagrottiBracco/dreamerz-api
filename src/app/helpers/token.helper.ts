@@ -27,6 +27,7 @@ export const createToken = async (
         return res.status(201).json({ message: "Você está autenticado", token })
     } catch (error) {
         Logger.error(error)
+
         return res.status(500).json({
             message: "Houve um erro na autenticação",
             error,
