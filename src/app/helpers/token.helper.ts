@@ -1,8 +1,8 @@
 import { Request, Response } from "express"
-import { IUser } from "../interfaces/User.interface"
-import { User } from "../models/User.model"
 import { Types } from "mongoose"
 import Logger from "../../configs/logger.config"
+import { IUser } from "../interfaces/User.interface"
+import { User } from "../models/User.model"
 const jwt = require("jsonwebtoken")
 
 interface DecodedToken {
@@ -24,7 +24,9 @@ export const createToken = async (
             { expiresIn: "60m" }
         )
 
-        return res.status(201).json({ message: "Você está autenticado", token })
+        return res
+            .status(201)
+            .json({ message: "Você está autenticado", token, name: user.name })
     } catch (error) {
         Logger.error(error)
 
