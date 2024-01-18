@@ -1,7 +1,7 @@
 const cors = require("cors")
 import express from "express"
-import publicRoutes from "./routes/public.routes"
 import privateRoutes from "./routes/private.routes"
+import publicRoutes from "./routes/public.routes"
 
 const app = express()
 

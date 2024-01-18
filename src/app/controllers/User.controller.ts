@@ -1,10 +1,10 @@
-import { Request, Response } from "express"
-import { User } from "../models/User.model"
-import { IUser } from "../interfaces/User.interface"
 import bcrypt from "bcryptjs"
-import { createToken, getUserByToken } from "../helpers/token.helper"
+import { Request, Response } from "express"
 import { Types } from "mongoose"
 import Logger from "../../configs/logger.config"
+import { createToken, getUserByToken } from "../helpers/token.helper"
+import { IUser } from "../interfaces/User.interface"
+import { User } from "../models/User.model"
 
 export default class UserController {
     static async register(
@@ -70,23 +70,6 @@ export default class UserController {
             }
 
             await createToken(user, req, res)
-        } catch (error) {
-            Logger.error(error)
-
-            return res.status(500).json({
-                message: "Há um erro, volte novamente mais tarde",
-                error,
-            })
-        }
-    }
-
-    static async logout(req: Request, res: Response): Promise<Response> {
-        try {
-            req.headers.authorization = undefined
-
-            return res
-                .status(200)
-                .json({ message: "Logout efetuado com sucesso" })
         } catch (error) {
             Logger.error(error)
 

@@ -20,6 +20,5 @@ router.post(
     validationMiddleware,
     UserController.login
 )
-router.post("/logout", UserController.logout)
 
 export default router
