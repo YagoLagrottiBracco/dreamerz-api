@@ -43,7 +43,7 @@ const transports = [
         filename: "logs/warnings.log",
         level: "warn",
     }),
-    new winston.transports.File({ filename: "logs/default.log" }),
+    new winston.transports.File({ filename: "logs/defaults.log" }),
 ]
 
 const Logger = winston.createLogger({
