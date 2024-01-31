@@ -7,7 +7,7 @@ import privateRoutes from "../src/routes/private.routes"
 import publicRoutes from "../src/routes/public.routes"
 
 fs.exists(path.join(__dirname, "logs"), (exists: boolean) =>
-    !exists ? null : fs.mkdirSync(path.join(__dirname, "logs"))
+    !exists ? null : fs.mkdirSync(path.join(__dirname, "../logs"))
 )
 
 const api = express()
