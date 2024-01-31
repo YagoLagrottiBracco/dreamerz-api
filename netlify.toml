@@ -3,3 +3,4 @@
 [[redirects]]
   to="/.netlify/functions/api
   from="/*"
+  status=200
