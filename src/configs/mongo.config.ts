@@ -15,7 +15,7 @@ async function connect() {
     try {
         await mongoose.connect(dbUri)
     } catch (error) {
-        console.log(error)
+        console.error(error)
 
         process.env.APP_ENV === "development" && LoggerCreate!.error(error)
     }
