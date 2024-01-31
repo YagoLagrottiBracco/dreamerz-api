@@ -2,7 +2,7 @@
     "name": "dreamerz-api",
     "version": "1.0.0",
     "description": "project to test my knowledge with backend JS developer",
-    "main": "app.js",
+    "main": "src/app.js",
     "scripts": {
         "test": "vitest --reporter verbose",
         "start": "ts-node-dev --respawn --transpile-only src/server.ts",

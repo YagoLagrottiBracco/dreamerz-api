@@ -12,7 +12,6 @@ app.use(express.json())
             origin: `http://localhost:${process.env.FRONT_PORT}`,
         })
     )
-    .use(express.static("public"))
     .use("/", publicRoutes)
     .use("/dashboard/", privateRoutes)
 

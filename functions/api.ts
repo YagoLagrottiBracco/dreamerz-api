@@ -13,7 +13,6 @@ api.use(express.json())
             origin: process.env.FRONT_URL,
         })
     )
-    .use(express.static("public"))
     .use("/", publicRoutes)
     .use("/dashboard/", privateRoutes)
 
