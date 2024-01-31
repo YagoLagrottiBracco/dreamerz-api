@@ -1,8 +1,8 @@
 const cors = require("cors")
 import express from "express"
 import serverless from "serverless-http"
-import privateRoutes from "../../src/routes/private.routes"
-import publicRoutes from "../../src/routes/public.routes"
+import privateRoutes from "../src/routes/private.routes"
+import publicRoutes from "../src/routes/public.routes"
 
 const api = express()
 
@@ -14,7 +14,7 @@ api.use(express.json())
         })
     )
     .use(express.static("public"))
-    .use("/", publicRoutes)
-    .use("/dashboard/", privateRoutes)
+    .use("/.netlify/functions/api/", publicRoutes)
+    .use("/.netlify/functions/api/dashboard/", privateRoutes)
 
-export const handler = serverless(api)
+module.exports.handler = serverless(api)
