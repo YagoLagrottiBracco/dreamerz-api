@@ -1,5 +1,7 @@
 import winston from "winston"
 
+const path = process.env.APP_ENV === "development" ? "logs" : "../../logs"
+
 const levels = {
     error: 0,
     warn: 1,
@@ -36,15 +38,15 @@ const format = winston.format.combine(
 const transports = [
     new winston.transports.Console(),
     new winston.transports.File({
-        filename: "../../logserrors.log",
+        filename: `${path}/errors.log`,
         level: "error",
     }),
     new winston.transports.File({
-        filename: "../../logswarnings.log",
+        filename: `${path}/warnings.log`,
         level: "warn",
     }),
     new winston.transports.File({
-        filename: "../../logsdefaults.log",
+        filename: `${path}/defaults.log`,
     }),
 ]
 
