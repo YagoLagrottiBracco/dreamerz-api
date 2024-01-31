@@ -18,5 +18,11 @@ api.use(express.json())
     .use("/dashboard/", privateRoutes)
 
 db()
+    .then(() => {
+        console.log("Conectado ao banco de dados MongoDB")
+    })
+    .catch((error) => {
+        console.error("Erro ao conectar ao banco de dados MongoDB:", error)
+    })
 
 module.exports.handler = serverless(api)
