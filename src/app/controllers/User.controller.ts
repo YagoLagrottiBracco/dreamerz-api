@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs"
 import { Request, Response } from "express"
 import { Types } from "mongoose"
-import LoggerCreate from "../../configs/logger.config"
 import { createToken, getUserByToken } from "../helpers/token.helper"
 import { IUser } from "../interfaces/User.interface"
 import { User } from "../models/User.model"
+import LoggerCreate from "../../configs/logger.config"
 
 export default class UserController {
     static async register(
@@ -55,32 +55,30 @@ export default class UserController {
     static async login(req: Request, res: Response): Promise<Response | void> {
         const data: IUser = req.body
 
-        return res
+        try {
+            const user: IUser | null = await User.findOne({ email: data.email })
 
-        // try {
-        //     const user: IUser | null = await User.findOne({ email: data.email })
+            if (!user) {
+                return res.status(422).json({
+                    message: "Não há usuário cadastrado com este e-mail!",
+                })
+            }
 
-        //     if (!user) {
-        //         return res.status(422).json({
-        //             message: "Não há usuário cadastrado com este e-mail!",
-        //         })
-        //     }
+            if (!(await bcrypt.compare(data.password, user.password))) {
+                return res.status(422).json({
+                    message: "Senha inválida",
+                })
+            }
 
-        //     if (!(await bcrypt.compare(data.password, user.password))) {
-        //         return res.status(422).json({
-        //             message: "Senha inválida",
-        //         })
-        //     }
+            await createToken(user, req, res)
+        } catch (error) {
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
-        //     await createToken(user, req, res)
-        // } catch (error) {
-        //     process.env.APP_ENV === "development" && LoggerCreate!.error(error)
-
-        //     return res.status(500).json({
-        //         message: "Há um erro, volte novamente mais tarde",
-        //         error,
-        //     })
-        // }
+            return res.status(500).json({
+                message: "Há um erro, volte novamente mais tarde",
+                error,
+            })
+        }
     }
 
     static async profile(req: Request, res: Response): Promise<Response> {
