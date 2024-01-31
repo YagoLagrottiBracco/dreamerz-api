@@ -16,8 +16,7 @@ api.use(express.json())
     )
     .use("/", publicRoutes)
     .use("/dashboard/", privateRoutes)
-    .listen("https://zingy-daifuku-686d5f.netlify.app", async () => {
-        await db()
-    })
+
+db()
 
 module.exports.handler = serverless(api)
