@@ -7,7 +7,7 @@ import { IUser } from "../interfaces/User.interface"
 import { Action } from "../models/Action.model"
 import { Dream } from "../models/Dream.model"
 import { Goal } from "../models/Goal.model"
-import Logger from "../../configs/logger.config"
+import LoggerCreate from "../../configs/logger.config"
 
 export default class DashboardController {
     static async getAllDreamsWithGoalsAndActions(req: Request, res: Response) {
@@ -17,7 +17,7 @@ export default class DashboardController {
 
             if (!user || typeof user === "boolean") {
                 process.env.APP_ENV === "development" &&
-                    Logger!.http("Acesso Negado!")
+                    LoggerCreate!.http("Acesso Negado!")
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
 
@@ -27,7 +27,7 @@ export default class DashboardController {
 
             if (dreams.length === 0) {
                 process.env.APP_ENV === "development" &&
-                    Logger!.warn("Não foi encontrado nenhum sonho")
+                    LoggerCreate!.warn("Não foi encontrado nenhum sonho")
                 return res
                     .status(404)
                     .json({ message: "Não foi encontrado nenhum sonho" })
@@ -57,7 +57,7 @@ export default class DashboardController {
                 dreams: dreamsWithGoalsAndActions,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

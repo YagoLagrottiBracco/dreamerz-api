@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs"
 import { Request, Response } from "express"
 import { Types } from "mongoose"
-import Logger from "../../configs/logger.config"
 import { createToken, getUserByToken } from "../helpers/token.helper"
 import { IUser } from "../interfaces/User.interface"
 import { User } from "../models/User.model"
+import LoggerCreate from "../../configs/logger.config"
 
 export default class UserController {
     static async register(
@@ -34,7 +34,7 @@ export default class UserController {
 
             if (!user) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não possível criar o usuário")
+                    LoggerCreate!.warn("Não possível criar o usuário")
 
                 return res
                     .status(422)
@@ -43,7 +43,7 @@ export default class UserController {
 
             await createToken(user, req, res)
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -72,7 +72,7 @@ export default class UserController {
 
             await createToken(user, req, res)
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -87,7 +87,7 @@ export default class UserController {
 
             if (!user) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.http("Acesso Negado!")
+                    LoggerCreate!.http("Acesso Negado!")
 
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
@@ -96,7 +96,7 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Usuário encontrado com sucesso", user })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -128,7 +128,7 @@ export default class UserController {
 
             if (!updatedUser) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.http("Usuário não encontrado")
+                    LoggerCreate!.http("Usuário não encontrado")
 
                 return res
                     .status(422)
@@ -139,7 +139,7 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Usuário atualizado com sucesso" })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",

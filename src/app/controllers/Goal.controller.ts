@@ -5,7 +5,7 @@ import { IGoal } from "../interfaces/Goal.interface"
 import { Action } from "../models/Action.model"
 import { Dream } from "../models/Dream.model"
 import { Goal } from "../models/Goal.model"
-import Logger from "../../configs/logger.config"
+import LoggerCreate from "../../configs/logger.config"
 
 export default class GoalController {
     static async createByIdDream(
@@ -20,7 +20,7 @@ export default class GoalController {
 
             if (!dream) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.http("Sonho não encontrado")
+                    LoggerCreate!.http("Sonho não encontrado")
 
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
@@ -31,7 +31,7 @@ export default class GoalController {
 
             if (!goal) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não possível criar o objetivo")
+                    LoggerCreate!.warn("Não possível criar o objetivo")
 
                 return res
                     .status(422)
@@ -42,7 +42,7 @@ export default class GoalController {
                 .status(201)
                 .json({ message: "Objetivo criado com sucesso", goal })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -64,7 +64,7 @@ export default class GoalController {
 
             if (goals.length === 0) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não foi encontrado nenhum objetivo")
+                    LoggerCreate!.warn("Não foi encontrado nenhum objetivo")
 
                 return res
                     .status(404)
@@ -76,7 +76,7 @@ export default class GoalController {
                 goals,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -93,7 +93,7 @@ export default class GoalController {
 
             if (!goal) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não foi encontrado o objetivo")
+                    LoggerCreate!.warn("Não foi encontrado o objetivo")
 
                 return res
                     .status(404)
@@ -105,7 +105,7 @@ export default class GoalController {
                 goal,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -128,7 +128,7 @@ export default class GoalController {
                 message: "Objetivo atualizado com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -144,7 +144,7 @@ export default class GoalController {
 
             if (!goal) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Objetivo não encontrado")
+                    LoggerCreate!.warn("Objetivo não encontrado")
 
                 return res
                     .status(404)
@@ -157,7 +157,7 @@ export default class GoalController {
                 message: "Objetivo apagado com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",

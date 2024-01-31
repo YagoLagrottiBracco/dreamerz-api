@@ -1,7 +1,7 @@
 import path from "path"
-import winston, { Logger as LoggerType } from "winston"
+import winston, { Logger } from "winston"
 
-let Logger: LoggerType | null = null
+let LoggerCreate: Logger | null = null
 
 if (process.env.APP_ENV === "development") {
     let dir: string =
@@ -57,7 +57,7 @@ if (process.env.APP_ENV === "development") {
         }),
     ]
 
-    Logger = winston.createLogger({
+    LoggerCreate = winston.createLogger({
         level: level(),
         levels,
         format,
@@ -65,4 +65,4 @@ if (process.env.APP_ENV === "development") {
     })
 }
 
-export default Logger
+export default LoggerCreate

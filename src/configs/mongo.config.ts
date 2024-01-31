@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import Logger from "./logger.config"
+import LoggerCreate from "./logger.config"
 
 async function connect() {
     const env = process.env
@@ -15,7 +15,7 @@ async function connect() {
     try {
         await mongoose.connect(dbUri)
     } catch (error) {
-        process.env.APP_ENV === "development" && Logger!.error(error)
+        process.env.APP_ENV === "development" && LoggerCreate!.error(error)
     }
 }
 

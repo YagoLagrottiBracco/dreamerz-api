@@ -1,8 +1,9 @@
 import morgan, { StreamOptions } from "morgan"
+import LoggerCreate from "../../configs/logger.config"
 
 const stream: StreamOptions = {
     write: (message) =>
-        process.env.APP_ENV === "development" && Logger!.http(message),
+        process.env.APP_ENV === "development" && LoggerCreate!.http(message),
 }
 
 const skip = () => {

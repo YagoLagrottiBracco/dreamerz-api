@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
 import { Types } from "mongoose"
-import Logger from "../../configs/logger.config"
 import { IAction } from "../interfaces/Action.interface"
 import { IGoal } from "../interfaces/Goal.interface"
 import { Action } from "../models/Action.model"
 import { Goal } from "../models/Goal.model"
+import LoggerCreate from "../../configs/logger.config"
 
 export default class ActionController {
     static async createByIdGoal(
@@ -19,7 +19,7 @@ export default class ActionController {
 
             if (!goal) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Objetivo não encontrado")
+                    LoggerCreate!.warn("Objetivo não encontrado")
 
                 return res
                     .status(404)
@@ -34,7 +34,7 @@ export default class ActionController {
                 .status(201)
                 .json({ message: "Execução criada com sucesso", action })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -56,7 +56,7 @@ export default class ActionController {
 
             if (actions.length === 0) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não foi encontrado nenhuma execução")
+                    LoggerCreate!.warn("Não foi encontrado nenhuma execução")
 
                 return res
                     .status(404)
@@ -68,7 +68,7 @@ export default class ActionController {
                 actions,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -85,7 +85,7 @@ export default class ActionController {
 
             if (!action) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não foi encontrado a execução")
+                    LoggerCreate!.warn("Não foi encontrado a execução")
 
                 return res
                     .status(404)
@@ -104,7 +104,7 @@ export default class ActionController {
                 action,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -126,7 +126,7 @@ export default class ActionController {
                 message: "Execução atualizada com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -145,7 +145,7 @@ export default class ActionController {
 
             if (!action) {
                 process.env.APP_ENV === "development" ||
-                    Logger!.warn("Não foi encontrado a execução")
+                    LoggerCreate!.warn("Não foi encontrado a execução")
 
                 return res
                     .status(404)
@@ -156,7 +156,7 @@ export default class ActionController {
                 message: "Execução apagada com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" && Logger!.error(error)
+            process.env.APP_ENV === "development" && LoggerCreate!.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
