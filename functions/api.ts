@@ -18,9 +18,7 @@ api.use(express.json())
     )
     .use("/", publicRoutes)
     .use("/dashboard/", privateRoutes)
-console.error("teste2")
 
 db()
-console.error("teste3")
 
 module.exports.handler = serverless(api)
