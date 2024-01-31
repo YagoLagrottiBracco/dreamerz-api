@@ -5,6 +5,7 @@ import winston from "winston"
 const logsDir = path.join(__dirname, "../../logs")
 if (!fs.existsSync(logsDir)) {
     fs.mkdirSync(logsDir)
+    fs.chmodSync(logsDir, 0o777)
 }
 
 const levels = {
