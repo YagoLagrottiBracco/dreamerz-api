@@ -19,7 +19,8 @@ export default class GoalController {
             const dream: IDream | null = await Dream.findById(idDream)
 
             if (!dream) {
-                Logger.http("Sonho não encontrado")
+                process.env.APP_ENV === "development" ||
+                    Logger.http("Sonho não encontrado")
 
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
@@ -29,7 +30,8 @@ export default class GoalController {
             const goal: IGoal = await Goal.create(dataGoal)
 
             if (!goal) {
-                Logger.warn("Não possível criar o objetivo")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não possível criar o objetivo")
 
                 return res
                     .status(422)
@@ -40,7 +42,7 @@ export default class GoalController {
                 .status(201)
                 .json({ message: "Objetivo criado com sucesso", goal })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -61,7 +63,8 @@ export default class GoalController {
             }).lean()
 
             if (goals.length === 0) {
-                Logger.warn("Não foi encontrado nenhum objetivo")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não foi encontrado nenhum objetivo")
 
                 return res
                     .status(404)
@@ -73,7 +76,7 @@ export default class GoalController {
                 goals,
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -89,7 +92,8 @@ export default class GoalController {
             const goal: IGoal | null = await Goal.findById(id).lean()
 
             if (!goal) {
-                Logger.warn("Não foi encontrado o objetivo")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não foi encontrado o objetivo")
 
                 return res
                     .status(404)
@@ -101,7 +105,7 @@ export default class GoalController {
                 goal,
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -124,7 +128,7 @@ export default class GoalController {
                 message: "Objetivo atualizado com sucesso",
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -139,7 +143,8 @@ export default class GoalController {
             const goal: IGoal | null = await Goal.findByIdAndDelete(id).lean()
 
             if (!goal) {
-                Logger.warn("Objetivo não encontrado")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Objetivo não encontrado")
 
                 return res
                     .status(404)
@@ -152,7 +157,7 @@ export default class GoalController {
                 message: "Objetivo apagado com sucesso",
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",

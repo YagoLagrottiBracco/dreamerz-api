@@ -18,7 +18,8 @@ export default class ActionController {
             const goal: IGoal | null = await Goal.findById(idGoal)
 
             if (!goal) {
-                Logger.warn("Objetivo não encontrado")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Objetivo não encontrado")
 
                 return res
                     .status(404)
@@ -33,7 +34,7 @@ export default class ActionController {
                 .status(201)
                 .json({ message: "Execução criada com sucesso", action })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -54,7 +55,8 @@ export default class ActionController {
             }).lean()
 
             if (actions.length === 0) {
-                Logger.warn("Não foi encontrado nenhuma execução")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não foi encontrado nenhuma execução")
 
                 return res
                     .status(404)
@@ -66,7 +68,7 @@ export default class ActionController {
                 actions,
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -82,7 +84,8 @@ export default class ActionController {
             const action: IAction | null = await Action.findById(id).lean()
 
             if (!action) {
-                Logger.warn("Não foi encontrado a execução")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não foi encontrado a execução")
 
                 return res
                     .status(404)
@@ -101,7 +104,7 @@ export default class ActionController {
                 action,
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -123,7 +126,8 @@ export default class ActionController {
                 message: "Execução atualizada com sucesso",
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
+
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -140,7 +144,8 @@ export default class ActionController {
             ).lean()
 
             if (!action) {
-                Logger.warn("Não foi encontrado a execução")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não foi encontrado a execução")
 
                 return res
                     .status(404)
@@ -151,7 +156,7 @@ export default class ActionController {
                 message: "Execução apagada com sucesso",
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

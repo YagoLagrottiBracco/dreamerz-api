@@ -16,7 +16,7 @@ export default class DashboardController {
             let dreamsWithGoalsAndActions: any[] = [];
 
             if (!user || typeof user === "boolean") {
-                Logger.http("Acesso Negado!");
+                process.env.APP_ENV === "development" || Logger.http("Acesso Negado!");
                 return res.status(401).json({ message: "Acesso Negado!" });
             }
 
@@ -25,7 +25,7 @@ export default class DashboardController {
             }).lean();
 
             if (dreams.length === 0) {
-                Logger.warn("Não foi encontrado nenhum sonho");
+                process.env.APP_ENV === "development" || Logger.warn("Não foi encontrado nenhum sonho");
                 return res.status(404).json({ message: "Não foi encontrado nenhum sonho" });
             }
 
@@ -46,7 +46,7 @@ export default class DashboardController {
                 dreams: dreamsWithGoalsAndActions,
             });
         } catch (error) {
-            Logger.error(error);
+            process.env.APP_ENV === "development" || Logger.error(error);
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

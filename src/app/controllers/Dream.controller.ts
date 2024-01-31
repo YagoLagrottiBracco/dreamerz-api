@@ -16,7 +16,8 @@ export default class DreamController {
             const user: IUser | boolean = await getUserByToken(req, res)
 
             if (!user || typeof user === "boolean") {
-                Logger.http("Acesso Negado!")
+                process.env.APP_ENV === "development" ||
+                    Logger.http("Acesso Negado!")
 
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
@@ -27,7 +28,8 @@ export default class DreamController {
             }).lean()
 
             if (!dream) {
-                Logger.warn("Sonho não encontrado")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Sonho não encontrado")
 
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
@@ -36,7 +38,7 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho encontrado com sucesso", dream })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -55,7 +57,8 @@ export default class DreamController {
             const user: IUser | boolean = await getUserByToken(req, res)
 
             if (!user || typeof user === "boolean") {
-                Logger.http("Acesso Negado!")
+                process.env.APP_ENV === "development" ||
+                    Logger.http("Acesso Negado!")
 
                 return res.status(401).json({ message: "Acesso Negado!" })
             }
@@ -65,7 +68,8 @@ export default class DreamController {
             const dream: IDream = await Dream.create(dataDream)
 
             if (!dream) {
-                Logger.warn("Não foi possível criar o sonho")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Não foi possível criar o sonho")
 
                 return res
                     .status(422)
@@ -77,7 +81,7 @@ export default class DreamController {
                 dream,
             })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -94,7 +98,8 @@ export default class DreamController {
             const dream: IDream | null = await Dream.findOneAndUpdate(id, data)
 
             if (!dream) {
-                Logger.warn("Sonho não encontrado")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Sonho não encontrado")
 
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
@@ -103,7 +108,7 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho atualizado com sucesso" })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -119,7 +124,8 @@ export default class DreamController {
             const dream: IDream | null = await Dream.findOneAndDelete(id)
 
             if (!dream) {
-                Logger.warn("Sonho não encontrado")
+                process.env.APP_ENV === "development" ||
+                    Logger.warn("Sonho não encontrado")
 
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
@@ -132,7 +138,7 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho apagado com sucesso" })
         } catch (error) {
-            Logger.error(error)
+            process.env.APP_ENV === "development" || Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
