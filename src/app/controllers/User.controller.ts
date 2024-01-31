@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs"
 import { Request, Response } from "express"
 import { Types } from "mongoose"
+import LoggerCreate from "../../configs/logger.config"
 import { createToken, getUserByToken } from "../helpers/token.helper"
 import { IUser } from "../interfaces/User.interface"
 import { User } from "../models/User.model"
-import LoggerCreate from "../../configs/logger.config"
 
 export default class UserController {
     static async register(
