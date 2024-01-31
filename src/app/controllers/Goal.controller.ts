@@ -42,7 +42,7 @@ export default class GoalController {
                 .status(201)
                 .json({ message: "Objetivo criado com sucesso", goal })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -76,7 +76,7 @@ export default class GoalController {
                 goals,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -105,7 +105,7 @@ export default class GoalController {
                 goal,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -128,7 +128,7 @@ export default class GoalController {
                 message: "Objetivo atualizado com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -157,7 +157,7 @@ export default class GoalController {
                 message: "Objetivo apagado com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",

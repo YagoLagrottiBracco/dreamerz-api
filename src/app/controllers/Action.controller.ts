@@ -34,7 +34,7 @@ export default class ActionController {
                 .status(201)
                 .json({ message: "Execução criada com sucesso", action })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -68,7 +68,7 @@ export default class ActionController {
                 actions,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -104,7 +104,7 @@ export default class ActionController {
                 action,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,
@@ -126,7 +126,7 @@ export default class ActionController {
                 message: "Execução atualizada com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -156,7 +156,7 @@ export default class ActionController {
                 message: "Execução apagada com sucesso",
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
                 error,

@@ -10,13 +10,12 @@ async function connect() {
         database: env.DB_DATABASE,
     }
 
-    
     const dbUri = `mongodb+srv://${dbInfo.user}:${dbInfo.password}@${dbInfo.cluster}.yo1vswf.mongodb.net/${dbInfo.database}?retryWrites=true&w=majority`
 
     try {
         await mongoose.connect(dbUri)
     } catch (error) {
-        process.env.APP_ENV === "development" || Logger.error(error)
+        process.env.APP_ENV === "development" && Logger.error(error)
     }
 }
 

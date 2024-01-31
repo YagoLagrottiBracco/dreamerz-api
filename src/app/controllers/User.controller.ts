@@ -43,7 +43,7 @@ export default class UserController {
 
             await createToken(user, req, res)
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -72,7 +72,7 @@ export default class UserController {
 
             await createToken(user, req, res)
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -96,7 +96,7 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Usuário encontrado com sucesso", user })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -139,7 +139,7 @@ export default class UserController {
                 .status(200)
                 .json({ message: "Usuário atualizado com sucesso" })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",

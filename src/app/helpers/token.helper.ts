@@ -27,7 +27,7 @@ export const createToken = async (
             .status(201)
             .json({ message: "Você está autenticado", token, name: user.name })
     } catch (error) {
-        process.env.APP_ENV === "development" || Logger.error(error)
+        process.env.APP_ENV === "development" && Logger.error(error)
 
         return res.status(500).json({
             message: "Houve um erro na autenticação",

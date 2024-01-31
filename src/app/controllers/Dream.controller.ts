@@ -38,7 +38,7 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho encontrado com sucesso", dream })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -81,7 +81,7 @@ export default class DreamController {
                 dream,
             })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -108,7 +108,7 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho atualizado com sucesso" })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
@@ -138,7 +138,7 @@ export default class DreamController {
                 .status(200)
                 .json({ message: "Sonho apagado com sucesso" })
         } catch (error) {
-            process.env.APP_ENV === "development" || Logger.error(error)
+            process.env.APP_ENV === "development" && Logger.error(error)
 
             return res.status(500).json({
                 message: "Há um erro, volte novamente mais tarde",
