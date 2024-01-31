@@ -1,64 +1,68 @@
 import path from "path"
-import winston from "winston"
+import winston, { Logger as LoggerType } from "winston"
 
-let dir: string =
-    process.env.APP_ENV === "development"
-        ? path.join(__dirname, "logs")
-        : path.join(__dirname, "../../logs")
+let Logger: LoggerType | null = null
 
-const levels = {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    debug: 4,
-}
+if (process.env.APP_ENV === "development") {
+    let dir: string =
+        process.env.APP_ENV === "development"
+            ? "logs"
+            : path.join(__dirname, "../../logs")
 
-const level = (): string => {
-    const env = process.env.APP_ENV || "development"
-    const isDevelopment = env === "development"
+    const levels = {
+        error: 0,
+        warn: 1,
+        info: 2,
+        http: 3,
+        debug: 4,
+    }
 
-    return isDevelopment ? "debug" : "warn"
-}
+    const level = (): string => {
+        const env = process.env.APP_ENV || "development"
+        const isDevelopment = env === "development"
 
-const colors = {
-    error: "red",
-    warn: "yellow",
-    info: "blue",
-    http: "magenta",
-    debug: "green",
-}
+        return isDevelopment ? "debug" : "warn"
+    }
 
-winston.addColors(colors)
+    const colors = {
+        error: "red",
+        warn: "yellow",
+        info: "blue",
+        http: "magenta",
+        debug: "green",
+    }
 
-const format = winston.format.combine(
-    winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
-    winston.format.colorize({ all: true }),
-    winston.format.printf(
-        (info) => `${info.timestamp} - ${info.level}: ${info.message}`
+    winston.addColors(colors)
+
+    const format = winston.format.combine(
+        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
+        winston.format.colorize({ all: true }),
+        winston.format.printf(
+            (info) => `${info.timestamp} - ${info.level}: ${info.message}`
+        )
     )
-)
 
-const transports = [
-    new winston.transports.Console(),
-    new winston.transports.File({
-        filename: `${dir}/errors.log`,
-        level: "error",
-    }),
-    new winston.transports.File({
-        filename: `${dir}/warnings.log`,
-        level: "warn",
-    }),
-    new winston.transports.File({
-        filename: `${dir}/defaults.log`,
-    }),
-]
+    const transports = [
+        new winston.transports.Console(),
+        new winston.transports.File({
+            filename: `${dir}/errors.log`,
+            level: "error",
+        }),
+        new winston.transports.File({
+            filename: `${dir}/warnings.log`,
+            level: "warn",
+        }),
+        new winston.transports.File({
+            filename: `${dir}/defaults.log`,
+        }),
+    ]
 
-const Logger = winston.createLogger({
-    level: level(),
-    levels,
-    format,
-    transports,
-})
+    Logger = winston.createLogger({
+        level: level(),
+        levels,
+        format,
+        transports,
+    })
+}
 
 export default Logger

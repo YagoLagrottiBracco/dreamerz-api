@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { Types } from "mongoose"
-import Logger from "../../configs/logger.config"
 import { IUser } from "../interfaces/User.interface"
 import { User } from "../models/User.model"
 const jwt = require("jsonwebtoken")
@@ -27,7 +26,7 @@ export const createToken = async (
             .status(201)
             .json({ message: "Você está autenticado", token, name: user.name })
     } catch (error) {
-        process.env.APP_ENV === "development" && Logger.error(error)
+        process.env.APP_ENV === "development" && Logger!.error(error)
 
         return res.status(500).json({
             message: "Houve um erro na autenticação",
