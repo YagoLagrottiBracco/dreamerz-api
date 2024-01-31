@@ -1,4 +1,11 @@
+import fs from "fs"
+import path from "path"
 import winston from "winston"
+
+const logsDir = path.join(__dirname, "logs")
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir)
+}
 
 const levels = {
     error: 0,
@@ -36,14 +43,16 @@ const format = winston.format.combine(
 const transports = [
     new winston.transports.Console(),
     new winston.transports.File({
-        filename: "logs/errors.log",
+        filename: path.join(logsDir, "errors.log"),
         level: "error",
     }),
     new winston.transports.File({
-        filename: "logs/warnings.log",
+        filename: path.join(logsDir, "warnings.log"),
         level: "warn",
     }),
-    new winston.transports.File({ filename: "logs/defaults.log" }),
+    new winston.transports.File({
+        filename: path.join(logsDir, "defaults.log"),
+    }),
 ]
 
 const Logger = winston.createLogger({
