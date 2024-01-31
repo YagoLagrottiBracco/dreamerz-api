@@ -7,6 +7,8 @@ import publicRoutes from "../src/routes/public.routes"
 
 const api = express()
 
+console.error("teste1")
+
 api.use(express.json())
     .use(
         cors({
@@ -16,13 +18,8 @@ api.use(express.json())
     )
     .use("/", publicRoutes)
     .use("/dashboard/", privateRoutes)
+console.error("teste2")
 
 db()
-    .then(() => {
-        console.log("Conectado ao banco de dados MongoDB")
-    })
-    .catch((error) => {
-        console.error("Erro ao conectar ao banco de dados MongoDB:", error)
-    })
 
 module.exports.handler = serverless(api)
