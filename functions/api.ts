@@ -21,5 +21,6 @@ api.use(express.json())
 console.error("teste2")
 
 db()
+console.error("teste3")
 
 module.exports.handler = serverless(api)
