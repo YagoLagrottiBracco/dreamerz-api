@@ -1,6 +1,10 @@
+import path from "path"
 import winston from "winston"
 
-const path = process.env.APP_ENV === "development" ? "logs" : "../../logs"
+let dir: string =
+    process.env.APP_ENV === "development"
+        ? path.join(__dirname, "logs")
+        : path.join(__dirname, "../../logs")
 
 const levels = {
     error: 0,
@@ -38,15 +42,15 @@ const format = winston.format.combine(
 const transports = [
     new winston.transports.Console(),
     new winston.transports.File({
-        filename: `${path}/errors.log`,
+        filename: `${dir}/errors.log`,
         level: "error",
     }),
     new winston.transports.File({
-        filename: `${path}/warnings.log`,
+        filename: `${dir}/warnings.log`,
         level: "warn",
     }),
     new winston.transports.File({
-        filename: `${path}/defaults.log`,
+        filename: `${dir}/defaults.log`,
     }),
 ]
 
