@@ -1,30 +1,33 @@
 import { Router } from "express"
+import ActionController from "../app/controllers/Action.controller"
+import DashboardController from "../app/controllers/Dashboard.controller"
 import DreamController from "../app/controllers/Dream.controller"
-import UserController from "../app/controllers/User.controller"
-import { UserValidationProfile } from "../app/middlewares/userMiddleware"
-import { validationMiddleware } from "../app/middlewares/validationMiddleware"
-import {
-    dreamValidationCreate,
-    dreamValidationGetOneById,
-    dreamValidationUpdate,
-} from "../app/middlewares/dreamMiddleware"
 import GoalController from "../app/controllers/Goal.controller"
-import {
-    goalValidationCreate,
-    goalValidationGetOneById,
-    goalValidationUpdate,
-} from "../app/middlewares/goalMiddleware"
+import UserController from "../app/controllers/User.controller"
 import {
     actionValidationCreate,
     actionValidationGetOneById,
     actionValidationUpdate,
 } from "../app/middlewares/actionMiddleware"
-import ActionController from "../app/controllers/Action.controller"
+import {
+    dreamValidationCreate,
+    dreamValidationGetOneById,
+    dreamValidationUpdate,
+} from "../app/middlewares/dreamMiddleware"
+import {
+    goalValidationCreate,
+    goalValidationGetOneById,
+    goalValidationUpdate,
+} from "../app/middlewares/goalMiddleware"
+import { UserValidationProfile } from "../app/middlewares/userMiddleware"
+import { validationMiddleware } from "../app/middlewares/validationMiddleware"
 
 const router = Router()
 
+//DASHBOARD
+router.get("/dreams", DashboardController.getAllDreamsWithGoalsAndActions)
+
 //DREAMS
-router.get("/dreams", DreamController.getAllByUserToken)
 router.get(
     "/dreams/find/:id",
     dreamValidationGetOneById(),

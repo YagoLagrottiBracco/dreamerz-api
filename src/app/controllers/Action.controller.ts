@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import { IAction } from "../interfaces/Action.interface"
 import { Types } from "mongoose"
-import { Goal } from "../models/Goal.model"
+import Logger from "../../configs/logger.config"
+import { IAction } from "../interfaces/Action.interface"
 import { IGoal } from "../interfaces/Goal.interface"
 import { Action } from "../models/Action.model"
-import Logger from "../../configs/logger.config"
+import { Goal } from "../models/Goal.model"
 
 export default class ActionController {
     static async createByIdGoal(
@@ -89,6 +89,13 @@ export default class ActionController {
                     .json({ message: "Não foi encontrado a execução" })
             }
 
+            const dateString = action.doneIn
+                .toLocaleString()
+                .split("T")[0]
+                .split(",")[0]
+                .split("/")
+            action.doneIn = `${dateString[2]}-${dateString[1]}-${dateString[0]}`
+
             return res.status(200).json({
                 message: "Execução encontrada com sucesso",
                 action,
@@ -107,18 +114,10 @@ export default class ActionController {
         const dataAction: IAction = req.body
 
         try {
-            const action: IAction | null = await Action.findByIdAndUpdate(
-                id,
-                dataAction
-            ).lean()
+            const action = await Action.findById(id).lean()
+            dataAction.goal = action!.goal
 
-            if (!action) {
-                Logger.warn("Não foi encontrado a execução")
-
-                return res
-                    .status(404)
-                    .json({ message: "Não foi encontrado a execução" })
-            }
+            await Action.findByIdAndUpdate(id, dataAction).lean()
 
             return res.status(200).json({
                 message: "Execução atualizada com sucesso",

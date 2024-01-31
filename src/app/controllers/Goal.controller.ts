@@ -1,10 +1,11 @@
 import { Request, Response } from "express"
-import { IGoal } from "../interfaces/Goal.interface"
 import { Types } from "mongoose"
-import { Dream } from "../models/Dream.model"
-import { IDream } from "../interfaces/Dream.interface"
-import { Goal } from "../models/Goal.model"
 import Logger from "../../configs/logger.config"
+import { IDream } from "../interfaces/Dream.interface"
+import { IGoal } from "../interfaces/Goal.interface"
+import { Action } from "../models/Action.model"
+import { Dream } from "../models/Dream.model"
+import { Goal } from "../models/Goal.model"
 
 export default class GoalController {
     static async createByIdDream(
@@ -114,7 +115,10 @@ export default class GoalController {
         const dataGoal: IGoal = req.body
 
         try {
-            await Goal.findByIdAndUpdate(id, dataGoal).lean()
+            const goal = await Goal.findById(id).lean()
+            dataGoal.dream = goal!.dream
+
+            await Goal.findByIdAndUpdate(id, dataGoal)
 
             return res.status(200).json({
                 message: "Objetivo atualizado com sucesso",
@@ -141,6 +145,8 @@ export default class GoalController {
                     .status(404)
                     .json({ message: "Não foi encontrado o objetivo" })
             }
+
+            await Action.deleteMany({ "goal.dream._id": goal.dream._id })
 
             return res.status(200).json({
                 message: "Objetivo apagado com sucesso",

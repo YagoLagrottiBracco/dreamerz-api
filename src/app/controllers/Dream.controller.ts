@@ -1,51 +1,14 @@
 import { Request, Response } from "express"
-import { Dream } from "../models/Dream.model"
-import { getUserByToken } from "../helpers/token.helper"
-import { IUser } from "../interfaces/User.interface"
-import { IDream } from "../interfaces/Dream.interface"
 import { Types } from "mongoose"
 import Logger from "../../configs/logger.config"
+import { getUserByToken } from "../helpers/token.helper"
+import { IDream } from "../interfaces/Dream.interface"
+import { IUser } from "../interfaces/User.interface"
+import { Action } from "../models/Action.model"
+import { Dream } from "../models/Dream.model"
+import { Goal } from "../models/Goal.model"
 
 export default class DreamController {
-    static async getAllByUserToken(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
-        try {
-            const user: IUser | boolean = await getUserByToken(req, res)
-
-            if (!user || typeof user === "boolean") {
-                Logger.http("Acesso Negado!")
-
-                return res.status(401).json({ message: "Acesso Negado!" })
-            }
-
-            const dreams: IDream[] = await Dream.find({
-                "user._id": user._id,
-            }).lean()
-
-            if (dreams.length === 0) {
-                Logger.warn("Não foi encontrado nenhum sonho")
-
-                return res
-                    .status(404)
-                    .json({ message: "Não foi encontrado nenhum sonho" })
-            }
-
-            return res.status(200).json({
-                message: `Foram encontrados ${dreams.length} sonhos`,
-                dreams,
-            })
-        } catch (error) {
-            Logger.error(error)
-
-            return res.status(500).json({
-                message: "Há um erro, volte novamente mais tarde",
-                error,
-            })
-        }
-    }
-
     static async getOneById(req: Request, res: Response): Promise<Response> {
         const id: Types.ObjectId = new Types.ObjectId(req.params.id)
 
@@ -160,6 +123,10 @@ export default class DreamController {
 
                 return res.status(404).json({ message: "Sonho não encontrado" })
             }
+
+            await Action.deleteMany({ "goal.dream._id": dream._id })
+
+            await Goal.deleteMany({ "dream._id": dream._id })
 
             return res
                 .status(200)

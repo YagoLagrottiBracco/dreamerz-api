@@ -20,8 +20,7 @@ export const createToken = async (
                 name: user.name,
                 id: user._id,
             },
-            process.env.JWT_SECRET,
-            { expiresIn: "60m" }
+            process.env.JWT_SECRET
         )
 
         return res
